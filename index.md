@@ -179,7 +179,7 @@ class Post extends Model implements Explored{
 }
 ```
 
-Add the `posts` index to your Elasticsearch cluster:
+<!-- Add the `posts` index to your Elasticsearch cluster:
 
 ```
 curl -XPUT localhost:9200/posts '
@@ -197,7 +197,7 @@ curl -XPUT localhost:9200/posts '
     }
   }
 }'
-```
+``` -->
 
 #
 
