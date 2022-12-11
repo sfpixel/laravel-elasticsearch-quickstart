@@ -164,6 +164,7 @@ class Post extends Model implements Explored{
         return [
             'id' => 'keyword',
             'title' => 'text',
+            'description' => 'text',
             'created_at' => 'date'
         ];
 
