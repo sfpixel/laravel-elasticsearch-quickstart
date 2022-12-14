@@ -4,13 +4,13 @@ This quickstart assumes, that apache, php, mysql, composer and elasticsearch are
 
 Create your project:
 
-```
+```bash
 composer create-project laravel/laravel <project-name>
 ```
 
 Set your database options in the `.env` file.
 
-```
+```conf
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -21,7 +21,7 @@ DB_PASSWORD=
 
 MySQL may sometimes complain about keys being too long. If so, change this setting in `app/Providers/AppServiceProvider.php`:
 
-```
+```php
 use Illuminate\Support\Facades\Schema;
 
 public function boot(){
@@ -33,14 +33,14 @@ public function boot(){
 
 Make sure your database connection is working:
 
-```
+```bash
 php artisan migrate
 ```
 
 #
 Install Laravel Breeze to enable authentication:
 
-```
+```bash
 composer require laravel/breeze --dev &&
 php artisan breeze:install --dark &&
 php artisan migrate &&
@@ -49,7 +49,7 @@ npm install
 
 Create your admin user:
 
-```
+```bash
 php artisan ti
 
 User::create([
@@ -63,13 +63,13 @@ User::create([
 
 Create a demo model:
 
-```
+```bash
 php artisan make:model -mf Post
 ```
 
 Inside `database/migrations/create_posts_table.php`, set the migration data:
 
-```
+```php
 public function up(){
 
     Schema::create('posts', function (Blueprint $table) {
@@ -83,7 +83,7 @@ public function up(){
 ```
 A factory to create dummy data will also be helpful, therefore make the `title` and `content` columns fillable in your `app/Models/Post.php` model...
 
-```
+```php
 class Post extends Model{
 
     use HasFactory;
@@ -95,7 +95,7 @@ class Post extends Model{
 
 ...and define the factory in `database/factories/PostFactory.php`:
 
-```
+```php
 class PostFactory extends Factory{
     
     public function definition(){
@@ -114,21 +114,21 @@ class PostFactory extends Factory{
 
 Install Laravel Scout to make your models searchable:
 
-```
+```bash
 composer require laravel/scout &&
 php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 ```
 
 Install `jeroen-g/explorer` to connect Laravel Scout to Elasticsearch
 
-```
+```bash
 composer require jeroen-g/explorer &&
 php artisan vendor:publish --tag=explorer.config
 ```
 
 Then, inside your `config/scout.php`, set the default search engine to `elastic`:
 
-```
+```php
 'driver' => env('SCOUT_DRIVER', 'elastic'),
 ```
 
@@ -136,7 +136,7 @@ Then, inside your `config/scout.php`, set the default search engine to `elastic`
 
 Add your `Post` model to the list of searchable indexes in `config/explorer.php`:
 
-```
+```php
 'indexes' => [
     \App\Models\Post::class
 ],
@@ -144,7 +144,7 @@ Add your `Post` model to the list of searchable indexes in `config/explorer.php`
 
 Add the `Searchable` trait to your `Post` model and implement the `Explored` interface in `app/Models/Post.php` so it looks like this:
 
-```
+```php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -203,7 +203,7 @@ curl -XPUT localhost:9200/posts '
 
 Create a bunch of dummy posts:
 
-```
+```bash
 php artisan ti
 
 Post::factory()->count(10)->create()
@@ -211,7 +211,7 @@ Post::factory()->count(10)->create()
 
 Test your search:
 
-```
+```bash
 php artisan elastic:search "App\Models\Post" lorem
 ```
 
